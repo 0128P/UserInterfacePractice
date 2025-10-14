@@ -31,14 +31,14 @@ public class Lab07_2Activity extends AppCompatActivity {
     private DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            if (dialog == customDialog && which == DialogInterface.BUTTON_POSITIVE) {
-                showToast("custom dialog 확인 click.....");
-            } else if (dialog == listDialog) {
+            if(dialog == customDialog && which == DialogInterface.BUTTON_POSITIVE) {
+                showToast("alert dialog ok click...");
+            } else if(dialog == listDialog) {
                 //목록 dialog의 항목이 선택되었을 때 항목 문자열 획득
                 String[] data = getResources().getStringArray(R.array.dialog_array);
-                showToast(data[which] + " 선택 하셨습니다.");
-            } else if (dialog == alertDialog && which == DialogInterface.BUTTON_POSITIVE) {
-                showToast("alert dialog ok click.....");
+                showToast(data[which] + " 선택하셨습니다.");
+            } else if(dialog == alertDialog && which == DialogInterface.BUTTON_POSITIVE) {
+                showToast("alert dialog ok click...");
             }
         }
     };
@@ -56,6 +56,7 @@ public class Lab07_2Activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
 
         binding.alertButton.setOnClickListener(view -> {
             //AlertDialog 띄우기
@@ -134,6 +135,7 @@ public class Lab07_2Activity extends AppCompatActivity {
     }
 
     //매개변수의 문자열을 Toast로 띄우는 개발자 함수
+    //이건 외워라 걍
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
