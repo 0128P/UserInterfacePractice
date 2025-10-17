@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bar.lab07.databinding.ActivityLab072Binding;
 
+import java.sql.Time;
 import java.util.Calendar;
 
 public class Lab07_2Activity extends AppCompatActivity {
@@ -84,9 +85,9 @@ public class Lab07_2Activity extends AppCompatActivity {
         });
 
         binding.dateButton.setOnClickListener(view -> {
-            //현재 날짜로 dialog를 띄우기 위해 날짜를 구함
             Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
+            //month 부분을 주의, 인덱스가 0부터 시작해서 0~11 이므로 1을 더해서 출력한다.
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
@@ -103,6 +104,33 @@ public class Lab07_2Activity extends AppCompatActivity {
         });
 
         binding.timeButton.setOnClickListener(view -> {
+            Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            TimePickerDialog timeDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        showToast(hourOfDay + ":" + minute);
+                    }
+            }, hour, minute, false);
+
+            timeDialog.show();
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+        /*binding.timeButton.setOnClickListener(view -> {
             //현재 시간으로 Dialog를 띄우기 위해 시간을 구함
             Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -117,7 +145,7 @@ public class Lab07_2Activity extends AppCompatActivity {
                     }, hour, minute, false);
 
             timeDialog.show();
-        });
+        });*/
 
         binding.customButton.setOnClickListener(view -> {
             //custom dialog를 위한 layout xml 초기화

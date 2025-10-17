@@ -2,6 +2,7 @@ package com.bar.lab07;
 
 import static androidx.core.app.NotificationCompat.EXTRA_NOTIFICATION_ID;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +16,7 @@ import android.os.SystemClock;
 import android.view.View;
 import android.widget.Toast;
 
+//표준 라이브러리에도 같은 기능들이 있는데 하위 호환성을 위해 확장 라이브러리로 확장함.
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -27,8 +29,56 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bar.lab07.databinding.ActivityLab073Binding;
 
+//개발자 문서 아래에...
 // https://developer.android.com/develop/ui/views/notifications/build-notification
 public class Lab07_3Activity extends AppCompatActivity implements View.OnClickListener {
+
+    private ActivityLab073Binding binding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        //onCreate 하는일 : Inflation하고, Listener 쭉 달아주기
+        super.onCreate(savedInstanceState);
+        binding = ActivityLab073Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.basicButton.setOnClickListener(this);
+        binding.bigTextButton.setOnClickListener(this);
+        binding.bigPictureButton.setOnClickListener(this);
+        binding.progressButton.setOnClickListener(this);
+        binding.actionButton.setOnClickListener(this);
+        binding.remoteInputButton.setOnClickListener(this);
+
+        requestPermissions();
+    }
+
+    @Override
+    public void onClick(View v) {
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);   //required requestPermissions
+
+        //채널 생성
+        String channelId = "one-channel";
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {    //CODES 뒤에 오는 건 숫자 0이 아니고 영어 O임..
+            String channelName = "My channel One";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            String channelDescription = "My channel One Description";
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+            channel.setDescription(channelDescription);
+
+            //채널 등록
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    private void requestPermissions() {
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1000);
+        }
+    }
+
+
+}
+/*public class Lab07_3Activity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityLab073Binding binding;
 
@@ -168,3 +218,4 @@ public class Lab07_3Activity extends AppCompatActivity implements View.OnClickLi
         manager.notify(222, builder.build());
     }
 }
+*/
